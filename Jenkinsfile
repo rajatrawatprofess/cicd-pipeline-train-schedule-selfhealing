@@ -38,3 +38,18 @@ pipeline {
                 }
             }
         }
+        tage('DeployToProduction') {
+            when {
+                branch 'master'
+            }
+            steps {
+                input 'Deploy to Production?'
+                milestone(1)
+                kubernetesDeploy(
+                    kubeconfigId: 'kubeconfig1',
+                    configs: 'train-schedule-kube.yml',
+                    enableConfigSubstitution: true
+                )
+            }
+        }
+    }
